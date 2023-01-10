@@ -19,13 +19,16 @@ let options = {
     MERCHANT: "chipcardtest01",
     CUSTOMER: "Customer-UCUoumJV",
     SESSIONTYPE: "PAYMENTSESSION",
-    MERCHANTPAYMENTID: "User12",
+    MERCHANTPAYMENTID: "User4",
     AMOUNT: "10.00",
     CURRENCY: "RSD",
     CUSTOMEREMAIL: "email@email.com",
     CUSTOMERNAM: "Ime",
     CUSTOMERPHONE: "123456789",
     RETURNURL: "http://localhost:6600/succesfull",
+    EXTRA: {
+        cardSave: "YES",
+      },
     // PGTRANID: "19045KYdF14165",
   },
 };
@@ -55,3 +58,79 @@ app.post("/succesfull", (req, res) => {
   // on enpoint call
  res.end("Payment succes!")
 });
+
+
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+
+///////////////// NACIN SA AXIOSOM //////////////
+
+// const axios = require('axios');
+// const url = 'https://entegrasyon.asseco-see.com.tr/msu/api/v2'
+// const data = {
+//       ACTION: "SESSIONTOKEN",
+//       MERCHANTUSER: "api.test@payten.com",
+//       MERCHANTPASSWORD: "Hephr=R4SKNycaLf",
+//       MERCHANT: "chipcardtest01",
+//       CUSTOMER: "Customer-UCUoumJV",
+//       SESSIONTYPE: "PAYMENTSESSION",
+//       MERCHANTPAYMENTID: "User12345",
+//       AMOUNT: "10.00",
+//       CURRENCY: "RSD",
+//       CUSTOMEREMAIL: "email@email.com",
+//       CUSTOMERNAM: "Ime",
+//       CUSTOMERPHONE: "123456789",
+//       RETURNURL: "http://localhost:6600/succesfull",
+// };
+// const customHeaders = {
+//     "Content-Type": "multipart/form-data",
+// }
+
+// axios.post(url, data, {
+//   headers: customHeaders,
+// })
+// .then(({ data }) => {
+//   console.log(data.sessionToken);
+// })
+// .catch((error) => {
+//   console.error(error);
+// });
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+////////////////// NACIN SA FETCH ////////////////////////
+
+
+// const url = 'https://entegrasyon.asseco-see.com.tr/msu/api/v2'
+// const data = {
+//       ACTION: "SESSIONTOKEN",
+//       MERCHANTUSER: "api.test@payten.com",
+//       MERCHANTPASSWORD: "Hephr=R4SKNycaLf",
+//       MERCHANT: "chipcardtest01",
+//       CUSTOMER: "Customer-UCUoumJV",
+//       SESSIONTYPE: "PAYMENTSESSION",
+//       MERCHANTPAYMENTID: "User12345",
+//       AMOUNT: "10.00",
+//       CURRENCY: "RSD",
+//       CUSTOMEREMAIL: "email@email.com",
+//       CUSTOMERNAM: "Ime",
+//       CUSTOMERPHONE: "123456789",
+//       RETURNURL: "http://localhost:6600/succesfull",
+// };
+// const customHeaders = {
+//     "Content-Type": "multipart/form-data",
+// }
+
+// fetch(url, {
+//     method: "POST",
+//     headers: customHeaders,
+//     body: JSON.stringify(data),
+    
+// })
+//     .then((response) => response.json())
+//     .then((data) => {
+//         console.log(data);
+//     })
+//     .catch((error) => {
+//         console.error(error);
+//     });
