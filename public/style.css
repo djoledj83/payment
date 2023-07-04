@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* border: 3px solid red; */
+
+}
+.glavni {
+    margin-top: 50px;
+    width: 50vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid #137ff4;
+    border-radius: 10px;
+ }
+
+ .info {
+    margin: 50px;
+ }
+
+ .naslov {
+    color: #137ff4;
+ }
