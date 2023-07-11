@@ -62,6 +62,48 @@ app.get("/pay_test", (req, res) => {
 
 });
 
+
+////////////////////////// PAY BY LINK /////////////////////////////
+
+app.get("/pay_by_link", (req, res) => {
+
+  let options_pbl = {
+    method: "POST",
+    url: "https://entegrasyon.asseco-see.com.tr/msu/api/v2",
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+    form: {
+      ACTION: "PAYBYLINKPAYMENT",
+      MERCHANTUSER: "api.test@payten.com", // PBL
+      MERCHANTPASSWORD: "Hephr=R4SKNycaLf", // PBL
+      MERCHANT: "chipcardtest01", // PBL
+      CUSTOMER: "Customer-UCUoumJV",
+      SESSIONTYPE: "PAYMENTSESSION",
+      MERCHANTPAYMENTID: new Date(),
+      AMOUNT: "9999.00",
+      CURRENCY: "RSD",
+      CUSTOMEREMAIL: "email@email.com",
+      CUSTOMERNAME: "Ime",
+      CUSTOMERPHONE: "123456789",
+      RETURNURL: "https://shop-node.milosdjokovic.com/succesfull",
+      SESSIONEXPIRY: "1h"
+
+    },
+  };
+
+  request(options_pbl, (err, response) => {
+    if (err) throw new Error(err);
+    let pbl_token = JSON.parse(response.body).sessionToken;
+    // on endpoint call
+    res.render("pbl", { token: pbl_token });
+
+  });
+});
+
+
+///////////////////////////////// END PAY BY LINK /////////////////////////////
+
 app.get("/pay_ent", (req, res) => {
 
   let options_ent = {
@@ -145,11 +187,36 @@ app.get("/pay_cse", (req, res) => {
 
 });
 
+
 app.post("/succesfull", (req, res) => {
-  // res.set("Content-Type", "application/json");
-  const response = req.body;
   res.render("success", {
-    ishod: JSON.stringify(response.pgTranRefId),
-    // brTrans: res.body,
+    url: req.body.returnUrl,
+    merchantPaymentId: req.body.merchantPaymentId,
+    apiMerchantId: req.body.apiMerchantId,
+    paymentSystem: req.body.paymentSystem,
+    paymentSystemType: req.body.paymentSystemType,
+    paymentSystemEftCode: req.body.paymentSystemEftCode,
+    pgTranDate: req.body.pgTranDate,
+    pgTranId: req.body.pgTranId,
+    pgTranRefId: req.body.pgTranRefId,
+    pgOrderId: req.body.pgOrderId,
+    pgTranApprCode: req.body.pgTranApprCode,
+    customerId: req.body.customerId,
+    amount: parseFloat(req.body.amount).toLocaleString('sr-RS', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+    installment: req.body.installment,
+    sessionToken: req.body.sessionToken,
+    cardBin: req.body.cardBin,
+    panLast4: req.body.panLast4,
+    nameOnCard: req.body.nameOnCard,
+    random: req.body.random,
+    SD_SHA512: req.body.SD_SHA512,
+    sdSha512: req.body.sdSha512,
+    responseCode: req.body.responseCode,
+    responseMsg: req.body.responseMsg,
+    bankResponseExtras: req.body.bankResponseExtras,
+    merchant: req.body.merchant,
+    transactionType: req.body.transactionType,
+    orderItems: req.body.orderItems,
+    brTrans: req.body.brTrans,
   });
 });

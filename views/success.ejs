@@ -13,15 +13,64 @@
 
 <body>
   <div class="container">
+
+
     <div class="naslov">
-      <h1>Placanje</h1>
+      <h1>Informacije o transakciji!</h1>
+      <% if (responseMsg === 'Approved') { %>
+        <p>Vasa transakcija je <b><h4>USPEŠNA</h4></b></p>
+        <p>Vaš račun je zadužen za iznos od <%= amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %> dinara.</p>
+      <% } else { %>
+        <p>Vasa transakcija je <b><h4 class="text-danger">ODBIJENA</h4></b></p>
+        <p>Vaš račun nije zadužen.</p>
+
+      <% } %>
     </div>
-    <div class="glavni p-5"></div>
-    <div class="info">
-      <h4>Info o transakciji</h4>
-      <p>Milos, 
-        <%= ishod %>
-      </p>
+
+
+
+    <!-- <div class="naslov">
+      <h1>Placanje</h1>
+      <p>Vasa transakcija je <b><h4><%= responseMsg %>!</h4></b></p>
+    </div> -->
+    <div class="glavni p-5">
+      <ul>
+        <li><b>returnUrl:</b> <%= url %></li>
+        <li><b>merchantPaymentId:</b> <%= merchantPaymentId %></li>
+        <li><b>apiMerchantId:</b> <%= apiMerchantId %></li>
+        <li><b>paymentSystem:</b> <%= paymentSystem %></li>
+        <li><b>paymentSystemType:</b> <%= paymentSystemType %></li>
+        <li><b>paymentSystemEftCode:</b> <%= paymentSystemEftCode %></li>
+        <li><b>pgTranDate:</b> <%= pgTranDate %></li>
+        <li><b>pgTranId:</b> <%= pgTranId %></li>
+        <li><b>pgTranRefId:</b> <%= pgTranRefId %></li>
+        <li><b>pgOrderId:</b> <%= pgOrderId %></li>
+        <li><b>pgTranApprCode:</b> <%= pgTranApprCode %></li>
+        <li><b>customerId:</b> <%= customerId %></li>
+        <b>
+          <li>amount: <%= amount %> rsd.</li>
+        </b>
+        <b>
+          <li>installment: <%= installment %></li>
+        </b>
+        <li><b>sessionToken:</b> <%= sessionToken %></li>
+        <li><b>cardBin:</b> <%= cardBin %></li>
+        <li><b>panLast4:</b> <%= panLast4 %></li>
+        <li><b>nameOnCard:</b> <%= nameOnCard %></li>
+        <b>
+          <li>random: <%= random %></li>
+        </b>
+        <!-- <li><b>SD_SHA512:</b> <%= SD_SHA512 %></li> -->
+        <!-- <li><b>sdSha512:</b> <%= sdSha512 %></li> -->
+        <li><b>responseCode:</b> <%= responseCode %></li>
+        <li><b>responseMsg:</b> <%= responseMsg %></li>
+        <!-- <li><b>bankResponseExtras:</b> <%= bankResponseExtras %></li> -->
+        <b>
+          <li>merchant: <%= merchant %></li>
+        </b>
+        <li><b>transactionType:</b> <%= transactionType %></li>
+        <li><b>orderItems:</b> <%= orderItems %></li>
+      </ul>
     </div>
   </div>
 </body>
