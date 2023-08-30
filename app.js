@@ -6,10 +6,14 @@ const express = require("express");
 const request = require("request");
 const path = require("path");
 const app = express();
+const bodyParser = require('body-parser');
+require('dotenv').config();
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static('public'));
 
-app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
 
@@ -20,12 +24,13 @@ app.listen(PORT, () => {
 
 app.get("/", (req, res) => {
   res.render("index");
+
 });
 
-// let token;
+// let amount;
 
-app.get("/pay_test", (req, res) => {
-
+app.post("/pay_test", (req, res) => {
+  let amount = req.body.amount;
   let options_test = {
     method: "POST",
     url: "https://test.merchantsafeunipay.com/msu/api/v2",
@@ -37,26 +42,28 @@ app.get("/pay_test", (req, res) => {
       MERCHANTUSER: "npavlovi@nassan.rs", // TEST
       MERCHANTPASSWORD: "+5UQ8@NDVm@*=r3", // TEST
       MERCHANT: "ems02", // TEST
-      CUSTOMER: "Customer-UCUoumJV",
-      SESSIONTYPE: "PAYMENTSESSION",
       MERCHANTPAYMENTID: new Date(),
-      AMOUNT: "10000.00",
+      CUSTOMER: "Milos_Test",
+      AMOUNT: amount,
       CURRENCY: "RSD",
+      SESSIONTYPE: "PAYMENTSESSION",
       CUSTOMEREMAIL: "email@email.com",
       CUSTOMERNAM: "Ime",
       CUSTOMERPHONE: "123456789",
       RETURNURL: "https://shop-node.milosdjokovic.com/succesfull",
       SESSIONEXPIRY: "1h",
       EXTRA: {
-        cardSave: "YES",
-      },
+        FORCESAVE: "YES",
+        SALE: "YES"
+      }
+
     },
   };
-
   request(options_test, (err, response) => {
     let test_token = JSON.parse(response.body).sessionToken;
-    console.log(test_token);
+    console.log(options_test);
     // on enpoint call
+
     res.redirect(`https://test.merchantsafeunipay.com/chipcard/pay3d/${test_token}`) // TEST
   });
 
@@ -65,8 +72,8 @@ app.get("/pay_test", (req, res) => {
 
 ////////////////////////// PAY BY LINK /////////////////////////////
 
-app.get("/pay_by_link", (req, res) => {
-
+app.post("/pay_by_link", (req, res) => {
+  let amount = req.body.amount;
   let options_pbl = {
     method: "POST",
     url: "https://entegrasyon.asseco-see.com.tr/msu/api/v2",
@@ -75,13 +82,13 @@ app.get("/pay_by_link", (req, res) => {
     },
     form: {
       ACTION: "PAYBYLINKPAYMENT",
-      MERCHANTUSER: "api.test@payten.com", // PBL
-      MERCHANTPASSWORD: "Hephr=R4SKNycaLf", // PBL
-      MERCHANT: "chipcardtest01", // PBL
+      MERCHANTUSER: process.env.MERCHANTUSER, // PBL
+      MERCHANTPASSWORD: process.env.MERCHANTPASSWORD, // PBL
+      MERCHANT: process.env.MERCHANT, // PBL
       CUSTOMER: "Customer-UCUoumJV",
       SESSIONTYPE: "PAYMENTSESSION",
       MERCHANTPAYMENTID: new Date(),
-      AMOUNT: "9999.00",
+      AMOUNT: amount,
       CURRENCY: "RSD",
       CUSTOMEREMAIL: "email@email.com",
       CUSTOMERNAME: "Ime",
@@ -94,6 +101,7 @@ app.get("/pay_by_link", (req, res) => {
 
   request(options_pbl, (err, response) => {
     if (err) throw new Error(err);
+    // console.log(response.body);
     let pbl_token = JSON.parse(response.body).sessionToken;
     // on endpoint call
     res.render("pbl", { token: pbl_token });
@@ -104,30 +112,50 @@ app.get("/pay_by_link", (req, res) => {
 
 ///////////////////////////////// END PAY BY LINK /////////////////////////////
 
-app.get("/pay_ent", (req, res) => {
+app.post("/pay_ent", (req, res) => {
+  let amount = req.body.amount;
 
   let options_ent = {
     method: "POST",
     url: "https://entegrasyon.asseco-see.com.tr/msu/api/v2",
     headers: {
-      "content-type": "multipart/form-data",
+      // "content-type": "multipart/form-data",
+      "content-type": "application/json",
     },
     form: {
-      ACTION: "SESSIONTOKEN",
-      MERCHANTUSER: "api.test@payten.com", // INTEGRACIJA
-      MERCHANTPASSWORD: "Hephr=R4SKNycaLf", // INTEGRACIJA
-      MERCHANT: "chipcardtest01", // INTEGRACIJA
-      CUSTOMER: "Customer-UCUoumJV",
-      SESSIONTYPE: "PAYMENTSESSION",
-      MERCHANTPAYMENTID: new Date(),
-      AMOUNT: "12345.00",
-      CURRENCY: "RSD",
-      CUSTOMEREMAIL: "email@email.com",
-      CUSTOMERNAM: "Ime",
-      CUSTOMERPHONE: "123456789",
-      RETURNURL: "https://shop-node.milosdjokovic.com/succesfull",
-      SESSIONEXPIRY: "1h",
-      MAXINSTALLMENTCOUNT: 3,
+
+      "ACTION": "SESSIONTOKEN",
+      "MERCHANTUSER": "api.test@payten.com", // INTEGRACIJA
+      "MERCHANTPASSWORD": "Hephr=R4SKNycaLf", // INTEGRACIJA
+      "MERCHANT": "chipcardtest01", // INTEGRACIJA
+      "CUSTOMER": "Customer-UCUoumJV",
+      "SESSIONTYPE": "PAYMENTSESSION",
+      "MERCHANTPAYMENTID": new Date(),
+      "AMOUNT": amount,
+      "CURRENCY": "RSD",
+      "CUSTOMEREMAIL": "email@email.com",
+      "CUSTOMERNAM": "Ime",
+      "CUSTOMERPHONE": "123456789",
+      "RETURNURL": "https://shop-node.milosdjokovic.com/succesfull",
+      "SESSIONEXPIRY": "1h",
+      "MAXINSTALLMENTCOUNT": 3,
+
+
+      // ACTION: "SESSIONTOKEN",
+      // MERCHANTUSER: "api.test@payten.com", // INTEGRACIJA
+      // MERCHANTPASSWORD: "Hephr=R4SKNycaLf", // INTEGRACIJA
+      // MERCHANT: "chipcardtest01", // INTEGRACIJA
+      // CUSTOMER: "Customer-UCUoumJV",
+      // SESSIONTYPE: "PAYMENTSESSION",
+      // MERCHANTPAYMENTID: new Date(),
+      // AMOUNT: "12345.00",
+      // CURRENCY: "RSD",
+      // CUSTOMEREMAIL: "email@email.com",
+      // CUSTOMERNAM: "Ime",
+      // CUSTOMERPHONE: "123456789",
+      // RETURNURL: "https://shop-node.milosdjokovic.com/succesfull",
+      // SESSIONEXPIRY: "1h",
+      // MAXINSTALLMENTCOUNT: 3,
     },
   };
 
@@ -189,6 +217,7 @@ app.get("/pay_cse", (req, res) => {
 
 
 app.post("/succesfull", (req, res) => {
+  console.log(res.body);
   res.render("success", {
     url: req.body.returnUrl,
     merchantPaymentId: req.body.merchantPaymentId,
@@ -219,4 +248,5 @@ app.post("/succesfull", (req, res) => {
     orderItems: req.body.orderItems,
     brTrans: req.body.brTrans,
   });
+
 });

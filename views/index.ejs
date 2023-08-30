@@ -19,28 +19,33 @@
           <h1>Placanje</h1>
         </div>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text">$</span>
-          <span class="input-group-text">0.00</span>
-          <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
-        </div>
-        <div class="col-md-2 m-1">
-          <a class="btn btn-primary" href="/pay_test">Plati <b>TEST</b></a>
-        </div>
-        <div class="col-md-2 m-1">
-          <a class="btn btn-success" href="/pay_ent">Plati <b>ENT</b></a>
-        </div>
-        <div class="col-md-2 m-1">
-          <a class="btn btn-warning" href="/pay_by_link">Plati <b>PBL</b></a>
-        </div>
-        <div class="col-md-2 m-1">
-          <a class="btn btn-info" href="/pay_cse">Plati <b>CSE</b></a>
-        </div>
+        <form class="form-inline" action="/pay_test" method="POST">
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="Iznos" class="sr-only">Iznos</label>
+            <input type="number" class="form-control" id="cifra" name="amount" placeholder="Amount" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block mb-2">Plati test</button>
+        </form>
+
+        <form class="form-inline" action="/pay_ent" method="POST">
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="Iznos" class="sr-only">Iznos</label>
+            <input type="number" class="form-control" id="cifra" name="amount" placeholder="Amount" required>
+          </div>
+          <button type="submit" class="btn btn-success btn-lg btn-block mb-2">Plati test</button>
+        </form>
+
+        <form class="form-inline" action="/pay_by_link" method="POST">
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="Iznos" class="sr-only">Iznos</label>
+            <input type="number" class="form-control" id="cifra" name="amount" placeholder="Amount" required>
+          </div>
+          <button type="submit" class="btn btn-warning btn-lg btn-block mb-2">Pay By Link</button>
+        </form>
+
+
         <div class="col-md-2 m-1">
           <a class="btn btn-secondary" href="/qty">Info</a>
-        </div>
-        <div class="info">
-          <h4>Info o transakciji</h4>
         </div>
     </div>
 
